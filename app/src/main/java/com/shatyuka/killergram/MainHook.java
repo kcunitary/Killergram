@@ -49,6 +49,10 @@ public class MainHook implements IXposedHookLoadPackage {
                     XposedBridge.hookAllMethods(UserConfigClass, "getMaxAccountCount", XC_MethodReplacement.returnConstant(999));
                     XposedBridge.hookAllMethods(UserConfigClass, "hasPremiumOnAccounts", XC_MethodReplacement.returnConstant(true));
                 }
+                Class<?> AndroidUtilitiesClass = XposedHelpers.findClassIfExists("org.telegram.messenger.AndroidUtilities", lpparam.classLoader);
+                if (chatUIActivityClass != null) {
+                    XposedBridge.hookAllMethods(AndroidUtilitiesClass, "isInternalUri", XC_MethodReplacement.returnConstant(false));
+                }
             } catch (Throwable ignored) {
             }
         }
